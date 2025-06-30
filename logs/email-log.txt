@@ -1,0 +1,6 @@
+[2025-06-30T21:03:00.007Z] ⏰ Verificando tarefas pendentes...
+[2025-06-30T21:03:00.010Z] 📧 Usuário Gustavo possui 1 tarefas pendentes. Email enviado.
+[2025-06-30T21:03:00.011Z] 📧 Usuário gustavo possui 1 tarefas pendentes. Email enviado.
+[2025-06-30T21:51:00.011Z] ⏰ Verificando tarefas pendentes...
+[2025-06-30T21:51:00.014Z] 📧 Usuário Gustavo possui 1 tarefas pendentes. Email enviado.
+[2025-06-30T21:51:00.015Z] 📧 Usuário gustavo possui 1 tarefas pendentes. Email enviado.

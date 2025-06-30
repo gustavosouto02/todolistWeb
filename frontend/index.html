@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TODO List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    #user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #logout-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #logout-btn:hover {
+      background: #dc2626;
+    }
+
+    #task-form {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    #task-input {
+      flex: 1;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+    }
+
+    button[type="submit"], #send-mail-btn {
+      background: #22c55e;
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button[type="submit"]:hover, #send-mail-btn:hover {
+      background: #16a34a;
+    }
+
+    #send-mail-btn {
+      width: 100%;
+      margin-top: 28px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    li.completed span {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .actions button {
+      margin-left: 8px;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .actions button.complete {
+      background: #3b82f6;
+    }
+
+    .actions button.delete {
+      background: #ef4444;
+    }
+
+    .actions button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0; font-size: 28px; color: #111827;">TODO List</h1>
+      <div id="user-info">
+        <span id="welcome-text" style="font-size: 16px; color: #374151;"></span>
+        <button id="logout-btn">Sair</button>
+      </div>
+    </div>
+
+    <form id="task-form">
+      <input type="text" id="task-input" placeholder="Digite uma nova tarefa..." required />
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <ul id="task-list"></ul>
+    <button id="send-mail-btn">Enviar tarefas por e-mail</button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const name = localStorage.getItem('userName');
+      const welcomeEl = document.getElementById('welcome-text');
+      welcomeEl.textContent = name ? `Bem-vindo, ${name}!` : 'Bem-vindo!';
+
+      document.getElementById('logout-btn').addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userName');
+        window.location.href = 'login.html';
+      });
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
