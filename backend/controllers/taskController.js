@@ -1,5 +1,6 @@
 // backend/controllers/taskController.js
 const Task = require('../models/task');
+const db = require('../config/db');
 
 exports.getAllTasks = (req, res) => {
   const userId = req.userId;
@@ -23,9 +24,9 @@ exports.createTask = (req, res) => {
 exports.updateTask = (req, res) => {
   const userId = req.userId;
   const { id } = req.params;
-  const { completed } = req.body;
+  const { title, completed } = req.body;
 
-  Task.update(id, userId, completed, (err) => {
+  Task.update(id, userId, { title, completed }, (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ message: 'Tarefa atualizada com sucesso' });
   });
@@ -38,5 +39,16 @@ exports.deleteTask = (req, res) => {
   Task.delete(id, userId, (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ message: 'Tarefa excluída com sucesso' });
+  });
+};
+
+exports.getTaskById = (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId;
+
+  Task.findById(id, userId, (err, row) => {
+    if (err) return res.status(500).json({ error: 'Erro ao buscar tarefa' });
+    if (!row) return res.status(404).json({ error: 'Tarefa não encontrada' });
+    res.json(row);
   });
 };

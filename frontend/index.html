@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TODO List</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -12,117 +12,118 @@
       margin: 0;
       padding: 0;
     }
-
     .container {
       max-width: 600px;
-      margin: 60px auto;
-      padding: 40px;
+      margin: 40px auto;
+      padding: 24px;
       background: white;
       border-radius: 16px;
       box-shadow: 0 8px 30px rgba(0,0,0,0.05);
     }
-
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 32px;
     }
-
     #user-info {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-
     #logout-btn {
       background: #ef4444;
       color: white;
       border: none;
-      padding: 10px 18px;
+      padding: 8px 16px;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.3s;
     }
-
     #logout-btn:hover {
       background: #dc2626;
     }
-
     #task-form {
       display: flex;
-      gap: 12px;
-      margin-bottom: 28px;
+      gap: 10px;
+      margin-bottom: 20px;
     }
-
     #task-input {
       flex: 1;
-      padding: 14px;
+      padding: 12px;
       font-size: 16px;
       border: 1px solid #d1d5db;
       border-radius: 8px;
     }
-
     button[type="submit"], #send-mail-btn {
       background: #22c55e;
       color: white;
       border: none;
-      padding: 14px 22px;
+      padding: 12px 20px;
       border-radius: 8px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.3s;
     }
-
     button[type="submit"]:hover, #send-mail-btn:hover {
       background: #16a34a;
     }
-
     #send-mail-btn {
       width: 100%;
-      margin-top: 28px;
+      margin-top: 30px;
     }
-
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-
     li {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 0;
+      padding: 16px;
       border-bottom: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
     }
-
     li.completed span {
       text-decoration: line-through;
       color: gray;
     }
-
     .actions button {
       margin-left: 8px;
       border: none;
-      padding: 8px 12px;
+      padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
       color: white;
+      font-size: 14px;
     }
-
     .actions button.complete {
       background: #3b82f6;
     }
-
     .actions button.delete {
       background: #ef4444;
     }
-
+    .actions button.edit {
+      background: #f59e0b;
+    }
     .actions button:hover {
       opacity: 0.9;
+    }
+    #empty-message {
+      text-align: center;
+      color: #6b7280;
+      margin-top: 20px;
+      font-style: italic;
+    }
+    .edit-input {
+      flex: 1;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
     }
   </style>
 </head>
@@ -142,6 +143,7 @@
     </form>
 
     <ul id="task-list"></ul>
+    <div id="empty-message"> Nenhuma tarefa cadastrada.</div>
     <button id="send-mail-btn">Enviar tarefas por e-mail</button>
   </div>
 
@@ -151,11 +153,51 @@
       const welcomeEl = document.getElementById('welcome-text');
       welcomeEl.textContent = name ? `Bem-vindo, ${name}!` : 'Bem-vindo!';
 
+      const taskList = document.getElementById('task-list');
+      const emptyMessage = document.getElementById('empty-message');
+
+      function updateEmptyMessage() {
+        emptyMessage.style.display = taskList.children.length === 0 ? 'block' : 'none';
+      }
+
       document.getElementById('logout-btn').addEventListener('click', () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userName');
         window.location.href = 'login.html';
       });
+
+      const originalRemoveChild = taskList.removeChild;
+      taskList.removeChild = function(el) {
+        el.style.opacity = '0';
+        setTimeout(() => originalRemoveChild.call(taskList, el), 300);
+        updateEmptyMessage();
+      }
+
+      taskList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('edit')) {
+          const li = e.target.closest('li');
+          const span = li.querySelector('span');
+          const text = span.textContent;
+
+          const input = document.createElement('input');
+          input.value = text;
+          input.className = 'edit-input';
+
+          input.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') {
+              span.textContent = input.value;
+              li.replaceChild(span, input);
+            } else if (ev.key === 'Escape') {
+              li.replaceChild(span, input);
+            }
+          });
+
+          li.replaceChild(input, span);
+          input.focus();
+        }
+      });
+
+      updateEmptyMessage();
     });
   </script>
   <script src="script.js"></script>
