@@ -30,7 +30,7 @@ async function sendPendingTasks(userId, userName = '') {
         });
 
         const mailOptions = {
-            from: 'TODO List <todo@example.com>',
+            from: 'TODO LIST <todo@example.com>',
             to: user.email,
             subject: 'Tarefas Pendentes - TODO LIST',
             text: `${saudacao}Você ainda tem as seguintes tarefas pendentes:\n\n${lista}`

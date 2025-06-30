@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
-const SECRET = 'segredo_super_secreto'; // em produção, use variável de ambiente
+const SECRET = 'segredo_super_secreto'; 
 
 exports.register = (req, res) => {
   const { name, email, password } = req.body;

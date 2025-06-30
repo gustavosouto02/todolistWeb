@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('task-input');
     const sendMailBtn = document.getElementById('send-mail-btn');
     const emptyMessage = document.getElementById('empty-message');
+    const logoutBtn = document.getElementById('logout-btn');
+
 
     welcomeEl.textContent = name ? `Bem-vindo, ${name}!` : 'Bem-vindo!';
 
@@ -59,6 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
         emptyMessage.style.display = allItems.length ? 'none' : 'block';
     }
 
+    logoutBtn?.addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userName');
+        window.location.href = 'login.html';
+    });
+
 
     taskForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -97,17 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
         actions.classList.add('actions');
 
         const toggleBtn = document.createElement('button');
-        toggleBtn.textContent = task.completed ? 'Desfazer' : 'Concluir';
+        toggleBtn.textContent = task.completed ? '↩️' : '✔️';
         toggleBtn.className = 'complete';
         toggleBtn.onclick = () => toggleComplete(task.id, !task.completed);
 
         const editBtn = document.createElement('button');
-        editBtn.textContent = 'Editar';
+        editBtn.textContent = '✏️';
         editBtn.className = 'edit';
         editBtn.onclick = () => startEditTask(li, task);
 
         const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Excluir';
+        deleteBtn.textContent = '🗑️';
         deleteBtn.className = 'delete';
         deleteBtn.onclick = () => deleteTask(task.id);
 
@@ -143,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
         input.value = task.title;
         input.className = 'edit-input';
 
-        // ⌨️ Salvar ao pressionar Enter
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -152,12 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const saveBtn = document.createElement('button');
-        saveBtn.textContent = 'Salvar';
+        saveBtn.textContent = '💾';
         saveBtn.className = 'edit';
         saveBtn.onclick = () => saveEdit(task.id, input.value);
 
         const cancelBtn = document.createElement('button');
-        cancelBtn.textContent = 'Cancelar';
+        cancelBtn.textContent = '❌';
         cancelBtn.className = 'delete';
         cancelBtn.onclick = fetchTasks;
 
@@ -169,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         actionDiv.append(saveBtn, cancelBtn);
         li.appendChild(actionDiv);
 
-        input.focus(); // foca automaticamente no campo de edição
+        input.focus();
     }
 
 
