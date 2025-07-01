@@ -1,13 +1,10 @@
-// backend/cron/emailScheduler.js
 const cron = require('node-cron');
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 const sendPendingTasks = require('../utils/mailer');
 const Task = require('../models/task');
+const db = require('../config/db');
 
-const dbPath = path.resolve(__dirname, '../../database/db.sqlite');
-const db = new sqlite3.Database(dbPath);
 const logPath = path.resolve(__dirname, '../../logs/email-log.txt');
 
 // Garante que o diretório logs exista
